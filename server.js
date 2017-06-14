@@ -5,7 +5,7 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 
 // Require History Schema
-// var History = require("./models/History");
+var Articles = require("./models/Articles");
 
 // Create Instance of Express
 var app = express();
@@ -42,40 +42,38 @@ app.get("/", function(req, res) {
   res.sendFile(__dirname + "/public/index.html");
 });
 
-// This is the route we will send GET requests to retrieve our most recent search data.
-// We will call this route the moment our page gets rendered
-app.get("/api", function(req, res) {
 
-  // We will find all the records, sort it in descending order, then limit the records to 5
-  History.find({}).sort([
-    ["date", "descending"]
-  ]).limit(5).exec(function(err, doc) {
+// This is the route we will send POST requests to save each search.
+app.post("/api", function(req, res) {
+  console.log("BODY: " + req.body.title);
+
+  // Here we'll save the location based on the JSON input.
+  // We'll use Date.now() to always get the current date time
+  Articles.create({
+    title: req.body.title,
+    date: req.body.date,
+    web_url: req.body.web_url,
+  }, function(err) {
     if (err) {
       console.log(err);
     }
     else {
-      res.send(doc);
+      res.send("Saved Articles");
     }
   });
 });
 
-// This is the route we will send POST requests to save each search.
-app.post("/api", function(req, res) {
-  console.log("BODY: " + req.body);
+app.get("/api", function(req, res) {
 
-  // Here we'll save the location based on the JSON input.
-  // We'll use Date.now() to always get the current date time
-  // History.create({
-  //   location: req.body.location,
-  //   date: Date.now()
-  // }, function(err) {
-  //   if (err) {
-  //     console.log(err);
-  //   }
-  //   else {
-  //     res.send("Saved Search");
-  //   }
-  // });
+  // We will find all the records, sort it in descending order, then limit the records to 5
+  Articles.find({}, function(err, doc){
+    if (err) {
+      console.log(err);
+    }
+    else {
+      res.json(doc);
+    }
+  })
 });
 
 // -------------------------------------------------

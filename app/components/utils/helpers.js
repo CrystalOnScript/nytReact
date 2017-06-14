@@ -8,11 +8,10 @@ var nytAPIkey = "a986d0483bf54f30a9b3d059984a74e6";
 var helpers = {
 
   runQuery: function(searchTerm) {
+    // , srtDate, endDate
 
-    console.log(location);
-
-    // Figure out the geolocation
     var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + nytAPIkey + "&q=" + searchTerm;
+    // + "&begin_date=" + srtDate + "0101&end_date=" + endDate + "0101";
     console.log("queryURL", queryURL);
     return axios.get(queryURL).then(function(response) {
 
@@ -31,7 +30,14 @@ var helpers = {
       return articlesReturn;
     });
 
-  }
+  },
+
+  saveArticle: function(title, web_url, date){
+
+      console.log(title, web_url, date)
+
+
+  },
 
 };
 
