@@ -65,7 +65,6 @@ app.post("/api", function(req, res) {
 
 app.get("/api", function(req, res) {
 
-  // We will find all the records, sort it in descending order, then limit the records to 5
   Articles.find({}, function(err, doc){
     if (err) {
       console.log(err);
@@ -74,6 +73,18 @@ app.get("/api", function(req, res) {
       res.json(doc);
     }
   })
+});
+
+app.post("/api/delete", function(req, res) {
+    console.log(req.body);
+    Articles.remove({ title: req.body.title }, function(err) {
+        if (!err) {
+            res.send("DELETED!");
+        } else {
+            console.log(err);
+        }
+    });
+
 });
 
 // -------------------------------------------------

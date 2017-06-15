@@ -6,13 +6,25 @@ var Form = React.createClass({
 
   // Here we set a generic state associated with the text being searched for
   getInitialState: function() {
-    return { term: "" };
+    return { term: "", strDate: "", endDate: "", result:[] };
   },
 
   // This function will respond to the user input
-  handleChange: function(event) {
+  handleSearchChange: function(event) {
 
     this.setState({ term: event.target.value });
+
+  },
+
+  handleStrDateChange: function(event) {
+
+    this.setState({ strDate: event.target.value });
+
+  },
+
+  handleEndDateChange: function(event) {
+
+    this.setState({ endDate: event.target.value });
 
   },
 
@@ -24,7 +36,12 @@ var Form = React.createClass({
 
     // Set the parent to have the search term
     this.props.setTerm(this.state.term);
-    this.setState({ term: "" });
+    console.log("term",this.state.term)
+    this.props.setStrDate(this.state.strDate);
+    console.log("strDate", this.state.strDate);
+    this.props.setEndDate(this.state.endDate);
+    console.log("endDate", this.state.endDate);
+    // this.setState({ term: "", strDate: "", endDate: "" });
   },
   // Here we render the function
   render: function() {
@@ -50,7 +67,29 @@ var Form = React.createClass({
                 type="text"
                 className="form-control text-center"
                 id="term"
-                onChange={this.handleChange}
+                onChange={this.handleSearchChange}
+                required
+              />
+              <h4 className="">
+                <strong>Start Year</strong>
+              </h4>
+              <input
+                value={this.state.srtDate}
+                type="text"
+                className="form-control text-center"
+                id="strDate"
+                onChange={this.handleStrDateChange}
+                required
+              />
+              <h4 className="">
+                <strong>End Year</strong>
+              </h4>
+              <input
+                value={this.state.endDate}
+                type="text"
+                className="form-control text-center"
+                id="endDate"
+                onChange={this.handleEndDateChange}
                 required
               />
               <br />
@@ -63,6 +102,7 @@ var Form = React.createClass({
             </div>
           </form>
         </div>
+
       </div>
     );
   }

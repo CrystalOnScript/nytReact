@@ -7,11 +7,11 @@ var nytAPIkey = "a986d0483bf54f30a9b3d059984a74e6";
 // Helper Functions (in this case the only one is runQuery)
 var helpers = {
 
-  runQuery: function(searchTerm) {
+  runQuery: function(searchTerm, searchSrtDate, searchEndDate) {
     // , srtDate, endDate
 
-    var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + nytAPIkey + "&q=" + searchTerm;
-    // + "&begin_date=" + srtDate + "0101&end_date=" + endDate + "0101";
+    var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + nytAPIkey + "&q=" + searchTerm + "&begin_date=" + searchSrtDate + "0101&end_date=" + searchEndDate + "0101";;
+
     console.log("queryURL", queryURL);
     return axios.get(queryURL).then(function(response) {
 
@@ -32,12 +32,24 @@ var helpers = {
 
   },
 
-  saveArticle: function(title, web_url, date){
+  postSave: function(title, date, web_url) {
+       return axios.post("/api", {
+           title: title,
+           date: date,
+           web_url: web_url
+       });
+   },
 
-      console.log(title, web_url, date)
+   getSave: function() {
+        return axios.get("/api");
+    },
+    deleteSave: function(title) {
+        console.log(title);
+        return axios.post("/api/delete", {
+            title: title
 
-
-  },
+        });
+    },
 
 };
 
